@@ -9,7 +9,8 @@ async function getBreakingNews() {
     await Promise.all(specialNews.data.data.map(i => {
       news.push({
         title: i.title,
-        link: `${LINK_URL}${i.id}`
+        link: `${LINK_URL}${i.id}`,
+        author: i.author.name
       })
     }))
     return news
