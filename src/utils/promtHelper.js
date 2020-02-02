@@ -19,6 +19,9 @@ const categoryPicker = inquirer
     return answers
   });
 
+
+
 module.exports = {
-  categoryPicker
+  categoryPicker,
+  horoscopePicker
 }

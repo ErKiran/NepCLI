@@ -1,6 +1,7 @@
 const program = require('commander');
 const chalk = require('chalk');
 require('./news')
+require('./horoscope')
 
 program
   .version('0.0.1')

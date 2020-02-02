@@ -2,7 +2,7 @@ const program = require('commander');
 const chalk = require('chalk');
 const { getBreakingNews, getTrendingNews, getNewsByProvience, getNewsByCategories } = require('../controllers/news')
 const { formatTheNews } = require('../utils/newsFormatter')
-const { categoryPicker } = require('../utils/promtHelper')
+
 
 program
   .command('breakingNews')
@@ -59,6 +59,7 @@ program
   .description(`${chalk.yellowBright(`Get the News according to the Categories Choosen`)}`)
   .action(async function categoriesNews() {
     try {
+      const { categoryPicker } = require('../utils/promtHelper')
       const category = await categoryPicker;
       const news = getNewsByCategories(category.theme);
       formatTheNews(`News of categories ${category.theme}`, news)
