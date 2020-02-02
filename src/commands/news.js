@@ -2,6 +2,7 @@ const program = require('commander');
 const chalk = require('chalk');
 const { getBreakingNews, getTrendingNews, getNewsByProvience, getNewsByCategories } = require('../controllers/news')
 const { formatTheNews } = require('../utils/newsFormatter')
+const { categoryPicker } = require('../utils/promtHelper')
 
 program
   .command('breakingNews')
@@ -53,13 +54,14 @@ You'll need to enter the provience Number to get the News
   })
 
 program
-  .command('category <cat>')
+  .command('category')
   .alias('cat')
   .description(`${chalk.yellowBright(`Get the News according to the Categories Choosen`)}`)
-  .action(async function categoriesNews(cat) {
+  .action(async function categoriesNews() {
     try {
-      const news = getNewsByCategories(cat);
-      formatTheNews(`News of categories ${cat}`, news)
+      const category = await categoryPicker;
+      const news = getNewsByCategories(category.theme);
+      formatTheNews(`News of categories ${category.theme}`, news)
     }
     catch (err) {
       throw new Error(`Can't get News By Categories ${err}`)
