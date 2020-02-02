@@ -18,7 +18,27 @@ async function getTrendingNews() {
   }
 }
 
+async function getNewsByProvience(pid) {
+  try {
+    return createNewsData(`http://bg.annapurnapost.com/api/province/news?province=${pid}`)
+  }
+  catch (err) {
+    throw new Error(`Can't get News of Provience ${pid} ${err}`)
+  }
+}
+
+async function getNewsByCategories(type) {
+  try {
+    return createNewsData(`http://bg.annapurnapost.com/api/news/list?page=1&category_alias=${type}`)
+  }
+  catch (err) {
+    throw new Error(`Can't get News By Categories ${err}`)
+  }
+}
+
 module.exports = {
   getBreakingNews,
-  getTrendingNews
+  getTrendingNews,
+  getNewsByProvience,
+  getNewsByCategories
 }

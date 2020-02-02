@@ -1,6 +1,6 @@
 const program = require('commander');
 const chalk = require('chalk');
-const { getBreakingNews, getTrendingNews } = require('../controllers/news')
+const { getBreakingNews, getTrendingNews, getNewsByProvience, getNewsByCategories } = require('../controllers/news')
 const { formatTheNews } = require('../utils/newsFormatter')
 
 program
@@ -37,4 +37,31 @@ program
   .alias('p')
   .description(`${chalk.blue(`Get the News according to Provience
 You'll need to enter the provience Number to get the News
-`)}`)  
+`)}`)
+  .action(async function provienceNews(pid) {
+    try {
+      if (pid > 7) {
+        console.log(chalk.redBright(`👊👊 Nepal only have 7 provience and you want news of Provience No ${pid} 🤣🤣`))
+        return
+      }
+      const news = await getNewsByProvience(parseInt(pid))
+      formatTheNews(`News of Provience ${pid}`, news)
+    }
+    catch (err) {
+      throw new Error(`Can't get News ${err}`)
+    }
+  })
+
+program
+  .command('category <cat>')
+  .alias('cat')
+  .description(`${chalk.yellowBright(`Get the News according to the Categories Choosen`)}`)
+  .action(async function categoriesNews(cat) {
+    try {
+      const news = getNewsByCategories(cat);
+      formatTheNews(`News of categories ${cat}`, news)
+    }
+    catch (err) {
+      throw new Error(`Can't get News By Categories ${err}`)
+    }
+  })
