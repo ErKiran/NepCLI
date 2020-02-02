@@ -2,6 +2,7 @@ const program = require('commander');
 const chalk = require('chalk');
 require('./news')
 require('./horoscope')
+require('./forex')
 
 program
   .version('0.0.1')

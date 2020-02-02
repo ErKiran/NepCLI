@@ -50,6 +50,15 @@ function categoryPicker() {
   }
 }
 
+async function exchangePicker() {
+  try {
+
+  }
+  catch (err) {
+    throw new Error(`Can't create Prompt for Exchange Rate ${err}`)
+  }
+}
+
 module.exports = {
   categoryPicker,
   horoscopePicker
