@@ -1,6 +1,7 @@
 const program = require('commander');
 const chalk = require('chalk');
 const { filterHoroscope } = require('../controllers/horoscope');
+const { horoscopePicker } = require('../utils/promtHelper')
 
 program
   .command('horoscope')
@@ -8,7 +9,6 @@ program
   .description(chalk.red('🤞🤞 Daily Luck '))
   .action(async function horoscope() {
     try {
-      const { horoscopePicker } = require('../utils/horoscopePicker')
       const choosen = await horoscopePicker()
       const luck = await filterHoroscope(choosen.horoscope)
       console.log(chalk.redBright(`Prediction for the Sign ${choosen.horoscope} are: `))
