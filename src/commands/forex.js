@@ -11,7 +11,8 @@ program
   .action(async function exachangeCurrency() {
     try {
       const answers = await exchangePicker()
-      await getTheConvertedData(answers)
+      const convertedMoney = await getTheConvertedData(answers)
+      console.log(chalk.bold(`${chalk.greenBright(answers.units)} ${chalk.redBright(answers.from)} = NRP ${convertedMoney}`))
     }
     catch (err) {
       throw new Error(`Can't exchange the currency ${err}`)

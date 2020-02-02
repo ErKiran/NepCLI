@@ -62,20 +62,18 @@ async function exchangePicker() {
         choices: [
           'Buy Money',
           'Sell Money',
-          'Check the Exchange Rage'
         ]
       },
       {
         type: 'list',
         name: 'from',
-        message: `${chalk.redBright('Which Currency do you have?')}`,
+        message: `${chalk.redBright('Which currency do you want to exchange against NPR?')}`,
         choices: [...currencies]
       },
       {
-        type: 'list',
-        name: 'to',
-        message: `${chalk.greenBright('In Which currency do you want to convert it to ?')}`,
-        choices: [...currencies]
+        type: 'number',
+        name: 'units',
+        message: `${chalk.blueBright(`How many Units of Money Do you have?`)}`
       }
     ]).then(answers => {
       return answers

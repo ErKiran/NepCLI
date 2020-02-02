@@ -31,7 +31,7 @@ async function getAllCurrency() {
       throw new Error(`Currency Array Doesn't found ${err}`)
     }
     const allCurrencies = [...currencies]
-    return allCurrencies
+    return allCurrencies.filter(i => i !== 'NPR')
   }
   catch (err) {
     throw new Error(`Can't get All Currency`)
@@ -40,12 +40,48 @@ async function getAllCurrency() {
 
 async function getTheConvertedData(answers) {
   try {
-    console.log(answers)
+    const todayPrice = await convertTheCurrency()
+    const rates = todayPrice.Conversion.Currency
+    const { action, from, units } = answers
+    if (action === 'Buy Money') {
+      return calculateBuyingPrice(rates, from, units)
+    }
+    return calculateSellingPrice(rates, from, units)
   }
   catch (err) {
     throw new Error(`Can't convert Money ${err}`)
   }
 }
+
+function calculateSellingPrice(forex, foreignCurrency, units) {
+  try {
+    if (Array.isArray(forex)) {
+      const desiredCurrency = forex.filter(i => i.BaseCurrency === foreignCurrency)
+      const unit = units / desiredCurrency[0].BaseValue
+      const convertedPrice = unit * desiredCurrency[0].TargetSell;
+      return convertedPrice
+    }
+  }
+  catch (err) {
+    throw new Error(`Can't calculate the Selling Price ${err}`)
+  }
+}
+
+function calculateBuyingPrice(forex, foreignCurrency, units) {
+  try {
+    if (Array.isArray(forex)) {
+      const desiredCurrency = forex.filter(i => i.BaseCurrency === foreignCurrency)
+      const unit = units / desiredCurrency[0].BaseValue
+      const convertedPrice = unit * desiredCurrency[0].TargetBuy;
+      return convertedPrice
+    }
+  }
+  catch (err) {
+    throw new Error(`Can't calculate the Buying Price ${err}`)
+  }
+}
+
+
 module.exports = {
   getAllCurrency,
   getTheConvertedData
