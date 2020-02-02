@@ -38,6 +38,15 @@ async function getAllCurrency() {
   }
 }
 
+async function getTheConvertedData(answers) {
+  try {
+    console.log(answers)
+  }
+  catch (err) {
+    throw new Error(`Can't convert Money ${err}`)
+  }
+}
 module.exports = {
-  getAllCurrency
+  getAllCurrency,
+  getTheConvertedData
 }

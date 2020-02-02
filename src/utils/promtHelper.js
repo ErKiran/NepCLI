@@ -2,6 +2,7 @@ const inquirer = require('inquirer');
 const chalk = require('chalk')
 
 const { getHoroscope } = require('../controllers/horoscope')
+const { getAllCurrency } = require('../controllers/forex')
 async function horoscopePicker() {
   try {
     const horoscopes = await getHoroscope()
@@ -52,7 +53,34 @@ function categoryPicker() {
 
 async function exchangePicker() {
   try {
-
+    const currencies = await getAllCurrency()
+    const exchangePrompt = inquirer.prompt([
+      {
+        type: 'list',
+        name: 'action',
+        message: `${chalk.yellowBright('What are you looking for?')}`,
+        choices: [
+          'Buy Money',
+          'Sell Money',
+          'Check the Exchange Rage'
+        ]
+      },
+      {
+        type: 'list',
+        name: 'from',
+        message: `${chalk.redBright('Which Currency do you have?')}`,
+        choices: [...currencies]
+      },
+      {
+        type: 'list',
+        name: 'to',
+        message: `${chalk.greenBright('In Which currency do you want to convert it to ?')}`,
+        choices: [...currencies]
+      }
+    ]).then(answers => {
+      return answers
+    })
+    return exchangePrompt
   }
   catch (err) {
     throw new Error(`Can't create Prompt for Exchange Rate ${err}`)
@@ -61,5 +89,6 @@ async function exchangePicker() {
 
 module.exports = {
   categoryPicker,
-  horoscopePicker
+  horoscopePicker,
+  exchangePicker
 }
