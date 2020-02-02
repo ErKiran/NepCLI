@@ -31,3 +31,10 @@ program
     }
 
   })
+
+program
+  .command('provience <pid>')
+  .alias('p')
+  .description(`${chalk.blue(`Get the News according to Provience
+You'll need to enter the provience Number to get the News
+`)}`)  
