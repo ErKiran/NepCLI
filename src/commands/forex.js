@@ -1,7 +1,7 @@
 const program = require('commander')
 const chalk = require('chalk')
 
-const { getTheConvertedData } = require('../controllers/forex');
+const { convertTheCurrency, getTheConvertedData } = require('../controllers/forex');
 const { exchangePicker } = require('../utils/promtHelper')
 
 program
@@ -16,5 +16,19 @@ program
     }
     catch (err) {
       throw new Error(`Can't exchange the currency ${err}`)
+    }
+  })
+
+program
+  .command('forex')
+  .alias('frx')
+  .description(`${chalk.blueBright('List all the Exchange Rate of for the Day')}`)
+  .action(async function forex() {
+    try {
+      const allCurrency = await convertTheCurrency();
+      console.table(allCurrency)
+    }
+    catch (err) {
+      throw new Error(`Can't list all the forex ${err}`)
     }
   })

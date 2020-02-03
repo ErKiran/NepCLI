@@ -9,7 +9,7 @@ async function convertTheCurrency() {
     months = months.toString().length === 2 ? months : `0${months}`;
     const year = todays.getFullYear();
     const today = await axios.get(`https://www.nrb.org.np/exportForexJSON.php?YY=${year}&MM=${months}&DD=${day}&YY1=${year}&MM1=${months}&DD1=${day}`);
-    return today.data
+    return today.data.Conversion.Currency;
   }
   catch (err) {
     throw new Error(`Can't convert the currecy ${err}`)
@@ -21,8 +21,7 @@ async function getAllCurrency() {
     const currencies = new Set()
     const data = await convertTheCurrency()
     try {
-      const rates = data.Conversion.Currency
-      await Promise.all(rates.map(i => {
+      await Promise.all(data.map(i => {
         currencies.add(i.BaseCurrency)
         currencies.add(i.TargetCurrency)
       }))
@@ -41,12 +40,11 @@ async function getAllCurrency() {
 async function getTheConvertedData(answers) {
   try {
     const todayPrice = await convertTheCurrency()
-    const rates = todayPrice.Conversion.Currency
     const { action, from, units } = answers
     if (action === 'Buy Money') {
-      return calculateBuyingPrice(rates, from, units)
+      return calculateBuyingPrice(todayPrice, from, units)
     }
-    return calculateSellingPrice(rates, from, units)
+    return calculateSellingPrice(todayPrice, from, units)
   }
   catch (err) {
     throw new Error(`Can't convert Money ${err}`)
@@ -84,5 +82,6 @@ function calculateBuyingPrice(forex, foreignCurrency, units) {
 
 module.exports = {
   getAllCurrency,
+  convertTheCurrency,
   getTheConvertedData
 }
