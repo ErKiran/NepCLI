@@ -20,7 +20,6 @@ program
   })
 
 program
-  .command('forex')
   .alias('frx')
   .description(`${chalk.blueBright('List all the Exchange Rate of for the Day')}`)
   .action(async function forex() {
